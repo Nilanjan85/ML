@@ -1,0 +1,43 @@
+import numpy as np
+from sklearn.decomposition import PCA
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import scale
+%matplotlib inline
+
+#Load data set
+data = pd.read_csv('Big_Mart_PCA.csv')
+
+#convert it to numpy arrays
+X=data.values
+
+#Scaling the values
+X = scale(X)
+
+pca = PCA(n_components=44)
+
+pca.fit(X)
+
+#The amount of variance that each PC explains
+var= pca.explained_variance_ratio_
+
+#Cumulative Variance explains
+var1=np.cumsum(np.round(pca.explained_variance_ratio_, decimals=4)*100)
+
+print var1
+[  10.37   17.68   23.92   29.7    34.7    39.28   43.67   46.53   49.27
+51.92   54.48   57.04   59.59   62.1    64.59   67.08   69.55   72.
+74.39   76.76   79.1    81.44   83.77   86.06   88.33   90.59   92.7
+94.76   96.78   98.44  100.01  100.01  100.01  100.01  100.01  100.01
+100.01  100.01  100.01  100.01  100.01  100.01  100.01  100.01]
+
+plt.plot(var1)
+
+Reduction in variance with predictor variables
+
+#Looking at above plot I'm taking 30 variables
+pca = PCA(n_components=30)
+pca.fit(X)
+X1=pca.fit_transform(X)
+
+print X1
